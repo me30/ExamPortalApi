@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableAutoConfiguration 
 @SpringBootApplication
-public class ExamPortalApiApplication { 
+public class ExamPortalApiApplication {  
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExamPortalApiApplication.class, args);
