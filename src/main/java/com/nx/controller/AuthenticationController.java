@@ -1,42 +1,28 @@
 package com.nx.controller;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.nx.entity.RoleName;
-import com.nx.entity.User;
 import com.nx.exception.AppException;
 import com.nx.payload.ForgotPasswordRequest;
 import com.nx.payload.JwtAuthenticationResponse;
 import com.nx.payload.LoginRequest;
 import com.nx.payload.SignupRequest;
-import com.nx.repository.UserRepository;
 import com.nx.security.JwtTokenProvider;
-import com.nx.service.EmailService;
 import com.nx.service.UserService;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @CrossOrigin("*")
@@ -102,7 +88,7 @@ public class AuthenticationController {
 	@PutMapping(value = "/reset/{token}")
 	public ResponseEntity<?> resetPassword(@RequestBody String newPassword,@PathVariable("token") String tokenStr) {
 		try {
-			userService.forgotPassword(tokenStr,newPassword);
+			userService.resetPassword(tokenStr,newPassword);
 			return new ResponseEntity<String>("Password reset successfully", HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

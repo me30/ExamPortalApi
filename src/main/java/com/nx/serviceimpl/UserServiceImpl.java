@@ -1,13 +1,16 @@
 package com.nx.serviceimpl;
 
 import java.util.Date;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.nx.entity.RoleName;
 import com.nx.entity.User;
 import com.nx.payload.ForgotPasswordRequest;
@@ -26,19 +29,19 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 
 	@Value("${mail.fromname}")
 	private String fromName;
-	
+
 	@Value("${mail.subject}")
 	private String mailSubject;
-	
+
 	@Value("${mail.text}")
 	private String mailText;
-	
+
 	@Autowired
-    PasswordEncoder passwordEncoder;
-	
+	PasswordEncoder passwordEncoder;
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Override
 	public boolean existsByUsername(String username) throws Exception {
 		return repository.existsByUsername(username);
@@ -51,17 +54,17 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 
 	@Override
 	public void registerUser(@Valid SignupRequest signUpRequest) throws Exception {
-		 // Creating user's account
-        User user = new User();
-        user.setUsername(signUpRequest.getUserName());
-        user.setFirstName(signUpRequest.getFirstName());
-        user.setLastName(signUpRequest.getLastName());
-        user.setGender(signUpRequest.getGender());
-        user.setDob(signUpRequest.getDob());
-        user.setEmail(signUpRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        user.setRole(RoleName.User);
-        repository.save(user);		
+		// Creating user's account
+		User user = new User();
+		user.setUsername(signUpRequest.getUserName());
+		user.setFirstName(signUpRequest.getFirstName());
+		user.setLastName(signUpRequest.getLastName());
+		user.setGender(signUpRequest.getGender());
+		user.setDob(signUpRequest.getDob());
+		user.setEmail(signUpRequest.getEmail());
+		user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+		user.setRole(RoleName.User);
+		repository.save(user);		
 	}
 
 	@Override
@@ -77,7 +80,7 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		user.setResetToken(tokenStr);
 		emailForgotPassword(useremail, tokenStr);
 	}
-	
+
 	@Async
 	private void emailForgotPassword(ForgotPasswordRequest useremail, String tokenStr) throws Exception {
 		SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
@@ -89,29 +92,28 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	}
 
 	@Override
-	public void forgotPassword(String tokenStr, String newPassword) throws Exception {
-		// TODO Auto-generated method stub
+	public void resetPassword(String tokenStr, String newPassword) throws Exception {
 		Claims claims = Jwts.parser()
 				.setSigningKey("926D96C90030DD58429D2751AC1BDBBC")
 				.parseClaimsJws(tokenStr)
 				.getBody();
-				
 		String email = claims.getAudience();
-		
-		//Long userId = Long.parseLong(claims.getSubject());		to get userId
-		
 		User user = repository.findByEmail(email);
-		
 		if(null!=user)
 		{
 			user.setPassword(null!=user.getPassword()?passwordEncoder.encode(newPassword):user.getPassword());
-			
-			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
-			passwordResetEmail.setFrom(fromName);
-			passwordResetEmail.setTo(email);
-			passwordResetEmail.setSubject("Password reset successfully");
-			passwordResetEmail.setText("Your password reset successfully..");
-			emailService.sendEmail(passwordResetEmail);	
+			user.setResetToken("");
 		}
+		emailResetPassword(email);
+	}
+
+	@Async
+	private void emailResetPassword(String useremail) throws Exception {
+		SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
+		passwordResetEmail.setFrom(fromName);
+		passwordResetEmail.setTo(useremail);
+		passwordResetEmail.setSubject("Password reset successfully");
+		passwordResetEmail.setText("Your password reset successfully..");
+		emailService.sendEmail(passwordResetEmail);
 	}
 }

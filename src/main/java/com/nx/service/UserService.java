@@ -14,6 +14,6 @@ public interface UserService extends IFinder<User> , IService<User>{
 
 	void processForgotPassword(ForgotPasswordRequest useremail) throws Exception;
 
-	void forgotPassword(String token,String newPassword) throws Exception;
+	void resetPassword(String token,String newPassword) throws Exception;
 
 }

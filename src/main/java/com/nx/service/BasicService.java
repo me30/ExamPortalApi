@@ -1,6 +1,7 @@
 package com.nx.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.type.SerializationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public abstract class BasicService<T, R extends JpaRepository<T, Long> & JpaSpec
 	}
 
 	
-	public T findById(Long id){
-		return repository.findById(id).get();
+	public Optional<T> findById(Long id){
+		return repository.findById(id);
 	}
 
 	@Override

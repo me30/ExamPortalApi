@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.nx.entity.User;
-import com.nx.repository.UserRepository;
+import com.nx.service.UserService;
 
 
 @RestController
@@ -24,35 +23,36 @@ import com.nx.repository.UserRepository;
 public class UserController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
+	
 
 	@GetMapping()
 	public List<User> getAllUsers() {
-		return userRepository.findAll();
+		return userService.findAll();
 	}
 
 	@PostMapping()
 	public User createUser(@RequestBody User user) {
-		return userRepository.save(user);
+		return userService.save(user);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getUsersById(@PathVariable("id") Long id) {
-		return userRepository.findById(id)
+		return userService.findById(id)
 				.map(user -> ResponseEntity.ok().body(user))
 				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
 	public User updateUser(@PathVariable("id") Long id,	@RequestBody User user) {
-		return userRepository.save(user);
+		return userService.save(user);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
-		return userRepository.findById(id)
+		return userService.findById(id)
 				.map(user -> {
-					userRepository.deleteById(id);
+					userService.deleteById(id);
 					return ResponseEntity.ok().build();
 				}).orElse(ResponseEntity.notFound().build());
 	}

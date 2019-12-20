@@ -1,6 +1,7 @@
 package com.nx.service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IService<T>{
 	
@@ -8,7 +9,7 @@ public interface IService<T>{
 	
 	List<T> saveAll(Iterable<T> entities);
 
-	T findById(Long id);
+	Optional<T> findById(Long id);
 
 	Long deleteById(Long id);
 }
