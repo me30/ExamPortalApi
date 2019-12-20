@@ -97,39 +97,15 @@ public class AuthenticationController {
 			//2.. response
 			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
 	
 	@PutMapping(value = "/reset/{token}")
 	public ResponseEntity<?> resetPassword(@RequestBody String newPassword,@PathVariable("token") String tokenStr) {
-		
-		Claims claims = Jwts.parser()
-				.setSigningKey("926D96C90030DD58429D2751AC1BDBBC")
-				.parseClaimsJws(tokenStr)
-				.getBody();
-		
-		System.out.println("claims:"+claims.getAudience());
-		
-		String email = claims.getAudience();
-		
-		//Long userId = Long.parseLong(claims.getSubject());		to get userId
-		
-		User user = userRepository.findByEmail(email);
-		
-		if(null!=user)
-		{
-			user.setPassword(null!=user.getPassword()?passwordEncoder.encode(newPassword):user.getPassword());
-			
-			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
-			passwordResetEmail.setFrom(fromName);
-			passwordResetEmail.setTo(email);
-			passwordResetEmail.setSubject("Password reset successfully");
-			passwordResetEmail.setText("Your password reset successfully..");
-			emailService.sendEmail(passwordResetEmail);	
-			
+		try {
+			userService.forgotPassword(tokenStr,newPassword);
 			return new ResponseEntity<String>("Password reset successfully", HttpStatus.OK);
-		}
-		return new ResponseEntity<String>("User not found!!!", HttpStatus.INTERNAL_SERVER_ERROR);
+		}catch (Exception e) {
+			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
 	}
-	
 }

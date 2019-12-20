@@ -16,6 +16,8 @@ import com.nx.repository.UserRepository;
 import com.nx.service.BasicService;
 import com.nx.service.EmailService;
 import com.nx.service.UserService;
+
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -86,4 +88,30 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		emailService.sendEmail(passwordResetEmail);	
 	}
 
+	@Override
+	public void forgotPassword(String tokenStr, String newPassword) throws Exception {
+		// TODO Auto-generated method stub
+		Claims claims = Jwts.parser()
+				.setSigningKey("926D96C90030DD58429D2751AC1BDBBC")
+				.parseClaimsJws(tokenStr)
+				.getBody();
+				
+		String email = claims.getAudience();
+		
+		//Long userId = Long.parseLong(claims.getSubject());		to get userId
+		
+		User user = repository.findByEmail(email);
+		
+		if(null!=user)
+		{
+			user.setPassword(null!=user.getPassword()?passwordEncoder.encode(newPassword):user.getPassword());
+			
+			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
+			passwordResetEmail.setFrom(fromName);
+			passwordResetEmail.setTo(email);
+			passwordResetEmail.setSubject("Password reset successfully");
+			passwordResetEmail.setText("Your password reset successfully..");
+			emailService.sendEmail(passwordResetEmail);	
+		}
+	}
 }
