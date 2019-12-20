@@ -1,12 +1,16 @@
 package com.nx.payload;
 
+import java.sql.Date;
+
 public class SignupRequest {
 	private String userName;
 	private String firstName;
 	private String lastName;
 	private String password;
 	private String gender;
+	private Date dob;
 	private String email;
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -42,5 +46,11 @@ public class SignupRequest {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 }

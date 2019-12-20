@@ -68,7 +68,7 @@ public class JwtTokenProvider {
 		return false;
 	}
 
-	public static void main(String[] arg) {
+	/*public static void main(String[] arg) {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + 864000000);
@@ -87,5 +87,5 @@ public class JwtTokenProvider {
 				.getBody();
 
 		System.out.println(claims.getSubject());
-	}
+	}*/
 }
