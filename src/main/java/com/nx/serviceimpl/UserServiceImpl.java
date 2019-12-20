@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +44,12 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	@Autowired
 	private EmailService emailService;
 
+	@Override
+	public Page<User> search(Pageable pageable, String searchText) {
+		String queriableText = new StringBuilder("%").append(searchText).append("%").toString();
+		return repository.search(pageable, queriableText);
+	}
+	
 	@Override
 	public boolean existsByUsername(String username) throws Exception {
 		return repository.existsByUsername(username);
@@ -116,4 +124,7 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		passwordResetEmail.setText("Your password reset successfully..");
 		emailService.sendEmail(passwordResetEmail);
 	}
+
+	
+
 }

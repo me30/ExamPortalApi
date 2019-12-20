@@ -1,10 +1,15 @@
 package com.nx.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.nx.entity.User;
 import com.nx.payload.ForgotPasswordRequest;
 import com.nx.payload.SignupRequest;
 
 public interface UserService extends IFinder<User> , IService<User>{
+	
+	Page<User> search(Pageable pageable, String searchText);
 
 	boolean existsByUsername(String username) throws Exception;
 
@@ -15,5 +20,4 @@ public interface UserService extends IFinder<User> , IService<User>{
 	void processForgotPassword(ForgotPasswordRequest useremail) throws Exception;
 
 	void resetPassword(String token,String newPassword) throws Exception;
-
 }
