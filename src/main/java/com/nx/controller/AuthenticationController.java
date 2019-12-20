@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.nx.entity.RoleName;
 import com.nx.entity.User;
+import com.nx.exception.AppException;
 import com.nx.payload.ForgotPasswordRequest;
 import com.nx.payload.JwtAuthenticationResponse;
 import com.nx.payload.LoginRequest;
@@ -31,6 +32,7 @@ import com.nx.payload.SignupRequest;
 import com.nx.repository.UserRepository;
 import com.nx.security.JwtTokenProvider;
 import com.nx.service.EmailService;
+import com.nx.service.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -40,101 +42,62 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @CrossOrigin("*")
 public class AuthenticationController {
 	
-	@Value("${mail.fromname}")
-	private String fromName;
-	
-	@Value("${mail.subject}")
-	private String mailSubject;
-	
-	@Value("${mail.text}")
-	private String mailText;
-	
 	@Autowired
     AuthenticationManager authenticationManager;
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
-    PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
     JwtTokenProvider tokenProvider;
 	
+	@Autowired
+	UserService userService;
+	
 	@PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsernameOrEmail(),
                         loginRequest.getPassword()
                 )
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 	
 	@PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+		try {
+			if(userService.existsByUsername(signUpRequest.getUserName())) {
+	            return new ResponseEntity<String>("Username is already taken!",HttpStatus.BAD_REQUEST);
+	        }
 
-		if(userRepository.existsByUsername(signUpRequest.getUserName())) {
-            return new ResponseEntity<String>("Username is already taken!",HttpStatus.BAD_REQUEST);
-        }
-
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<String>("Email Address already in use!",HttpStatus.BAD_REQUEST);
-        }
-
-        // Creating user's account
-        User user = new User();
-        
-        user.setUsername(signUpRequest.getUserName());
-        user.setFirstName(signUpRequest.getFirstName());
-        user.setLastName(signUpRequest.getLastName());
-        user.setGender(signUpRequest.getGender());
-        user.setDob(signUpRequest.getDob());
-        user.setEmail(signUpRequest.getEmail());
-
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        
-        user.setRole(RoleName.User);
-
-        userRepository.save(user);
-
+	        if(userService.existsByEmail(signUpRequest.getEmail())) {
+	            return new ResponseEntity<String>("Email Address already in use!",HttpStatus.BAD_REQUEST);
+	        }
+	        userService.registerUser(signUpRequest);
+		}catch (Exception e) {
+			// TODO: handle exception
+			//1.. write in log file
+			
+			//2.. response
+			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
         return new ResponseEntity<String>("User registered successfully", HttpStatus.OK);
     }
 
 	@PostMapping("/forgotpassword")
-	public String processForgotPasswordForm(@Valid @RequestBody ForgotPasswordRequest userEmail,HttpServletRequest request) {
+	public ResponseEntity<?> processForgotPassword(@Valid @RequestBody ForgotPasswordRequest useremail) {
+		try {
+			userService.processForgotPassword(useremail);
+			return new ResponseEntity<String>("Please check link for forgot password "+useremail.getemail(), HttpStatus.OK);
+		}catch (Exception e) {
+			// TODO: handle exception
+			//1.. write in log file
+			
+			//2.. response
+			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
-		User user = userRepository.findByEmail(userEmail.getemail());
-		
-		Date now = new Date();
-		Date expiryDate = new Date(now.getTime() + 300000);
-
-		String tokenStr = Jwts.builder()
-				.setAudience(userEmail.getemail())
-				.setSubject(Long.toString(1))
-				.setIssuedAt(new Date())
-				.setExpiration(expiryDate)
-				.signWith(SignatureAlgorithm.HS512, "926D96C90030DD58429D2751AC1BDBBC")
-				.compact();
-		
-		user.setResetToken(tokenStr);
-				
-		SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
-		passwordResetEmail.setFrom(fromName);
-		passwordResetEmail.setTo(user.getEmail());
-		passwordResetEmail.setSubject(mailSubject);
-		passwordResetEmail.setText(mailText + tokenStr);
-		emailService.sendEmail(passwordResetEmail);	
-		return user.getEmail();
 	}
 	
 	@PutMapping(value = "/reset/{token}")
@@ -169,12 +132,4 @@ public class AuthenticationController {
 		return new ResponseEntity<String>("User not found!!!", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	/*@PutMapping(value = "/reset")
-	public User setNewPassword(RedirectAttributes redir,@RequestBody String userEmail) {
-		User user = userRepository.findByEmail(userEmail);
-		if(null!=user){
-			user.setEmail(userEmail);
-		}
-		return user;
-	}*/
 }

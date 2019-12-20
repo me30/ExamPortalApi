@@ -1,34 +1,25 @@
 package com.nx.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 import com.nx.entity.User;
 
-import java.util.Optional;
-
-@Transactional
-public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<Long>{
-
-	@Query("Select u From User u where username = :username and password = :password")
-	public User getUserbyUsernameandPassword(@Param("username")String username,@Param("password")String password);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User>{
 	
-	@Query("Select u From User u where email = :email ")
-	public User findByEmail(@Param("email")String email);
+	User findByUsernameAndPassword(String username, String password);
 	
-	@Query("Select u From User u where username = :username")
-	public Optional<User> getUserByusername(@Param("username") String userName);
+	User findByEmail(String email);
 	
 	@Query("Select u From User u where username = ?1")
-	public UserDetails loadUserByUsername(String username);
-	
-	Optional<User> findByUsernameOrEmail(String username, String email);
-		
-	UserDetails findByUsername(String username);
+	UserDetails loadUserByUsername(String username);
 	
 	Boolean existsByUsername(String username);
 	
