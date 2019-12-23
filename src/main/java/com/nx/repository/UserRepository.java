@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 	@Query("select u From User u where u.username = ?1 or u.email = ?1 or u.firstName = ?1 or u.lastName = ?1")
 	Page<User> search(Pageable pageable, String queriableText);
 	
-	Optional<User> findByUsernameOrPassword(String username, String password);
+	Optional<User> findByUsernameOrEmail(String username, String email);
 	
 	User findByEmail(String email);
 	

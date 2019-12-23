@@ -71,7 +71,7 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		user.setDob(signUpRequest.getDob());
 		user.setEmail(signUpRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-		user.setRole(RoleName.User);
+		user.setRole(RoleName.Admin);
 		repository.save(user);		
 	}
 
@@ -124,7 +124,4 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		passwordResetEmail.setText("Your password reset successfully..");
 		emailService.sendEmail(passwordResetEmail);
 	}
-
-	
-
 }

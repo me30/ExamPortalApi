@@ -47,9 +47,7 @@ public class UserPrincipal implements UserDetails {
 		
 		List<GrantedAuthority> authority = new ArrayList<>();
 		authority.add(new SimpleGrantedAuthority(user.getRole().toString()));
-		
-		System.out.println("authority:"+authority.toArray());
-		
+				
 		return new UserPrincipal(
 				user.getId(),
 				user.getUsername(),
@@ -66,7 +64,7 @@ public class UserPrincipal implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return this.authorities;
+		return authorities;
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class UserPrincipal implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.username;
+		return username;
 	}
 
 	@Override
@@ -113,53 +111,21 @@ public class UserPrincipal implements UserDetails {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
 	public String getLastName() {
 		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public Date getDob() {
 		return dob;
-	}
-
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-		this.authorities = authorities;
-	}
+	}	
 	
-	
+	//removed setter methods
 }

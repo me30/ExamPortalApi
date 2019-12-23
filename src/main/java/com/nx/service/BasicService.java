@@ -14,7 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-
 public abstract class BasicService<T, R extends JpaRepository<T, Long> & JpaSpecificationExecutor<T>> implements IFinder<T>, IService<T> {
 
 	@Autowired
