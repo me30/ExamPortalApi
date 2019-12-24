@@ -1,6 +1,9 @@
 package com.nx.controller;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,13 +38,17 @@ public class UserController {
 	@Autowired
     JwtTokenProvider tokenProvider;
 	
+	@Autowired
+	HttpServletRequest req;
+	
 	@GetMapping("/findAll")
 	public List<User> findAll() {
 		return userService.findAll();
 	}
 	
-	@GetMapping("/find/")
-	public ResponseEntity<User> findByToken(@RequestParam("token") String token) {
+	@GetMapping("/find")
+	public ResponseEntity<User> findByToken() {
+		String token = req.getHeader("Authorization").substring(7, req.getHeader("Authorization").length());
 		return userService.findById(tokenProvider.getUserIdFromJWT(token))
 				.map(user -> ResponseEntity.ok().body(user))
 				.orElse(ResponseEntity.notFound().build());
