@@ -1,5 +1,6 @@
 package com.nx.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.nx.entity.RoleName;
 import com.nx.entity.User;
+import com.nx.security.JwtTokenProvider;
 import com.nx.service.UserService;
 
 @RestController
@@ -30,6 +31,21 @@ public class UserController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+    JwtTokenProvider tokenProvider;
+	
+	@GetMapping("/findAll")
+	public List<User> findAll() {
+		return userService.findAll();
+	}
+	
+	@GetMapping("/find/")
+	public ResponseEntity<User> findByToken(@RequestParam("token") String token) {
+		return userService.findById(tokenProvider.getUserIdFromJWT(token))
+				.map(user -> ResponseEntity.ok().body(user))
+				.orElse(ResponseEntity.notFound().build());
+	}
 	
 	@GetMapping("/search/")
 	public Page<User> search(Pageable pageable,@RequestParam("searchText") String searchText) {
@@ -50,7 +66,6 @@ public class UserController {
 
 	@PostMapping()
 	public User save(@RequestBody User user) {
-		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole(RoleName.User);
 		return userService.save(user);

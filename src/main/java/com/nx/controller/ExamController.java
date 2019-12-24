@@ -1,6 +1,7 @@
 package com.nx.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class ExamController {
 	
 	@Autowired
 	ExamService examService;
+	
+	@GetMapping("/findAll")
+	public List<Exam> findAll() {
+		return examService.findAll();
+	}
 	
 	@GetMapping()
 	public Page<Exam> findAll(Pageable pageable) {

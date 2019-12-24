@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="user")
@@ -31,6 +33,7 @@ public class User {
 	@Column(name="lastname")
 	private String lastName;
 
+	@JsonIgnore
 	@Column(name="password")
 	private String password;
 
@@ -48,6 +51,7 @@ public class User {
 	@Column(name="email")
 	private String email;
 	
+	@JsonIgnore
 	@Column(name = "resetToken",length = 255)
 	private String resetToken;
 
