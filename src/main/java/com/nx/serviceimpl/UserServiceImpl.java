@@ -52,7 +52,7 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	
 	@Override
 	public boolean existsByUsername(String username) throws Exception {
-		return repository.existsByUsername(username);
+		return repository.existsByUserName(username);
 	}
 
 	@Override
