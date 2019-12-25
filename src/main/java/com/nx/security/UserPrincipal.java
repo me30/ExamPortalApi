@@ -50,7 +50,7 @@ public class UserPrincipal implements UserDetails {
 				
 		return new UserPrincipal(
 				user.getId(),
-				user.getUsername(),
+				user.getUserName(),
 				user.getFirstName(),
 				user.getLastName(),
 				user.getEmail(),

@@ -64,14 +64,14 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	public void registerUser(@Valid SignupRequest signUpRequest) throws Exception {
 		// Creating user's account
 		User user = new User();
-		user.setUsername(signUpRequest.getUserName());
+		user.setUserName(signUpRequest.getUserName());
 		user.setFirstName(signUpRequest.getFirstName());
 		user.setLastName(signUpRequest.getLastName());
 		user.setGender(signUpRequest.getGender());
 		user.setDob(signUpRequest.getDob());
 		user.setEmail(signUpRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-		user.setRole(RoleName.Admin);
+		user.setRole(RoleName.User);
 		repository.save(user);		
 	}
 
