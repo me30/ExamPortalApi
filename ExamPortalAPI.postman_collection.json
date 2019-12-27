@@ -1,0 +1,342 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ExamPortalAPI",
+		"_postman_id": "8344e585-6148-b966-03b8-a6d394cec11d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/signup",
+			"request": {
+				"url": "localhost:8080/app/signup",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userName\":\"rajan\",\n  \"firstName\":\"rajan\",\n  \"lastName\":\"shah\",\n  \"password\":\"rajan123\",\n  \"gender\":\"male\",\n  \"email\":\"rajan@gmail.com\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/user",
+			"request": {
+				"url": "localhost:8080/user",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc2ODIxNjE4LCJleHAiOjE1Nzc0MjY0MTV9.JJWP2YNvjk_I1-krsXApTWevhGyhyChk8bWAL5qLQdh5qamWV1IQmFmXJDR1ISCt4K8Wayp1oDVbLIzzvQvQ5g"
+					}
+				],
+				"body": {},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/user/1",
+			"request": {
+				"url": "localhost:8080/user/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc2ODIxNjE4LCJleHAiOjE1Nzc0MjY0MTV9.JJWP2YNvjk_I1-krsXApTWevhGyhyChk8bWAL5qLQdh5qamWV1IQmFmXJDR1ISCt4K8Wayp1oDVbLIzzvQvQ5g"
+					}
+				],
+				"body": {},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/forgotpassword",
+			"request": {
+				"url": "localhost:8080/forgotpassword",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"ravi.bh.java@gmail.com\"\n}\n"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/user",
+			"request": {
+				"url": "localhost:8080/user",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc2ODQ5Mzk0LCJleHAiOjE1Nzc0NTQxOTR9.prpGelnnkpeI6j4Na3tZD6qJ3Gfig8lALyDWI3eKxVW2gFSYs20a7vNwf_nktMCZyluIXAMUeL7J7Recyezu8g"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\":\"tapan123\",\n  \"firstName\":\"tapan\",\n  \"lastName\":\"Shah\",\n  \"password\":\"tap@123\",\n  \"gender\":\"male\",\n  \"dob\":\"1995-06-06\",\n  \"email\":\"tapan@gmail.com\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/exam",
+			"request": {
+				"url": "localhost:8080/exam",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc2OTk2NzAxLCJleHAiOjE1Nzc2MDE0OTl9.HiLwyQSoJ3Esc2FFRyY37qY0ER3EGpalIW-8YvwqhOLTTv6tAfI5IqRCweSQ_liSFIG6bRZ2MG6mABb5D5MjlA"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\":\"1\",\n  \"name\":\"Exam-1 updated\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/exam/2",
+			"request": {
+				"url": "localhost:8080/exam/2",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/question",
+			"request": {
+				"url": "localhost:8080/question",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc3MDE4ODUyLCJleHAiOjE1Nzc2MjM2NTB9.zbBC_SmGoaJvWaVVxVvrlYDj2zxM4s7PCGY5VnYO5NEwRwGqQRv-_5JWpTgMM91PirPUZuWPZFMXzTrZltvqGw"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\":\"When does method overloading is determined?\",\n  \"ansInText\":\"At compile time\",\n  \"correct_ans\":\"At compile time\",\n  \"option1\":\"At run time\",\n  \"option2\":\"At compile time\",\n  \"option3\":\"At coding time\",\n  \"option4\":\"At executing time\",\n  \"option1IsAns\":\"false\",\n  \"option2IsAns\":\"true\",\n  \"option3IsAns\":\"false\",\n  \"option4IsAns\":\"false\",\n  \"isMultipleSelect\":\"false\",\n  \"isText\":\"false\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/question",
+			"request": {
+				"url": "localhost:8080/question",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc3MDE4ODUyLCJleHAiOjE1Nzc2MjM2NTB9.zbBC_SmGoaJvWaVVxVvrlYDj2zxM4s7PCGY5VnYO5NEwRwGqQRv-_5JWpTgMM91PirPUZuWPZFMXzTrZltvqGw"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\":\"2\",\n  \"question\":\"When does method overloading is determined?\",\n  \"ansInText\":\"At compile time\",\n  \"correct_ans\":\"At compile time\",\n  \"option1\":\"At run time\",\n  \"option2\":\"At compile time\",\n  \"option3\":\"At debug time\",\n  \"option4\":\"At execution time\",\n  \"option1IsAns\":\"false\",\n  \"option2IsAns\":\"true\",\n  \"option3IsAns\":\"false\",\n  \"option4IsAns\":\"false\",\n  \"isMultipleSelect\":\"false\",\n  \"isText\":\"false\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/answer",
+			"request": {
+				"url": "localhost:8080/answer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc3MDE4ODUyLCJleHAiOjE1Nzc2MjM2NTB9.zbBC_SmGoaJvWaVVxVvrlYDj2zxM4s7PCGY5VnYO5NEwRwGqQRv-_5JWpTgMM91PirPUZuWPZFMXzTrZltvqGw"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ans\":\"answer in text\",\n  \"answerIsGiven\":\"true\",\n  \"queations\":\"1\",\n  \"examAttendantDate\":\"2019-12-22\",\n  \"exam\":\"1\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/answer",
+			"request": {
+				"url": "localhost:8080/answer",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc3MDE4ODUyLCJleHAiOjE1Nzc2MjM2NTB9.zbBC_SmGoaJvWaVVxVvrlYDj2zxM4s7PCGY5VnYO5NEwRwGqQRv-_5JWpTgMM91PirPUZuWPZFMXzTrZltvqGw"
+					}
+				],
+				"body": {},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/answer/3",
+			"request": {
+				"url": "localhost:8080/answer/3",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/question/3",
+			"request": {
+				"url": "localhost:8080/question/3",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/exam",
+			"request": {
+				"url": "localhost:8080/exam",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc2ODQ5Mzk0LCJleHAiOjE1Nzc0NTQxOTR9.prpGelnnkpeI6j4Na3tZD6qJ3Gfig8lALyDWI3eKxVW2gFSYs20a7vNwf_nktMCZyluIXAMUeL7J7Recyezu8g"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\":\"Exam-2 New\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/answer",
+			"request": {
+				"url": "localhost:8080/answer",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "autho",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc3MDE4ODUyLCJleHAiOjE1Nzc2MjM2NTB9.zbBC_SmGoaJvWaVVxVvrlYDj2zxM4s7PCGY5VnYO5NEwRwGqQRv-_5JWpTgMM91PirPUZuWPZFMXzTrZltvqGw"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\":\"1\",\n  \"ans\":\"answer updated in text\",\n  \"answerIsGiven\":\"true\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/signin",
+			"request": {
+				"url": "localhost:8080/signin",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"usernameOrEmail\":\"ravi\",\n  \"password\":\"ravi123\"\n}"
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/reset",
+			"request": {
+				"url": "http://localhost:8080/reset",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc3NDMyMDAxLCJleHAiOjE1Nzc0MzIzMDF9.RqgGA2zs8-RbA952bhwAiXz390W5MQ3wUFGhnk1XQE9eINSt87cG2hb7NDiSpiuuXJC_U5XeEMUdeR9WaNTUhg\",\n\t\"password\":\"ravi1106\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
