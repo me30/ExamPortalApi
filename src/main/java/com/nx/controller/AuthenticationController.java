@@ -22,6 +22,7 @@ import com.nx.exception.AppException;
 import com.nx.payload.ForgotPasswordRequest;
 import com.nx.payload.JwtAuthenticationResponse;
 import com.nx.payload.LoginRequest;
+import com.nx.payload.ResetPasswordRequest;
 import com.nx.payload.SignupRequest;
 import com.nx.security.JwtTokenProvider;
 import com.nx.service.UserService;
@@ -41,9 +42,6 @@ public class AuthenticationController {
 	
 	@PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		
-		UserCache userCache = new NullUserCache();
-		userCache.removeUserFromCache(loginRequest.getUsernameOrEmail());
 		
 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken
 				(loginRequest.getUsernameOrEmail(),loginRequest.getPassword());
@@ -89,10 +87,10 @@ public class AuthenticationController {
 		}
 	}
 	
-	@PutMapping(value = "/reset/{token}")
-	public ResponseEntity<?> resetPassword(@RequestBody String newPassword,@PathVariable("token") String tokenStr) {
+	@PostMapping(value = "/reset")
+	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
 		try {
-			userService.resetPassword(tokenStr,newPassword);
+			userService.resetPassword(resetPasswordRequest);
 			return new ResponseEntity<String>("Password reset successfully", HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

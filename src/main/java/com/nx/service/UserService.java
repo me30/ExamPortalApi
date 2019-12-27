@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.nx.entity.User;
 import com.nx.payload.ForgotPasswordRequest;
+import com.nx.payload.ResetPasswordRequest;
 import com.nx.payload.SignupRequest;
 
 public interface UserService extends IFinder<User> , IService<User>{
@@ -19,5 +20,5 @@ public interface UserService extends IFinder<User> , IService<User>{
 
 	void processForgotPassword(ForgotPasswordRequest useremail) throws Exception;
 
-	void resetPassword(String token,String newPassword) throws Exception;
+	void resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception;
 }

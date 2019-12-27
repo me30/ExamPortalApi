@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.nx.entity.RoleName;
 import com.nx.entity.User;
 import com.nx.payload.ForgotPasswordRequest;
+import com.nx.payload.ResetPasswordRequest;
 import com.nx.payload.SignupRequest;
 import com.nx.repository.UserRepository;
 import com.nx.service.BasicService;
@@ -79,8 +80,13 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	public void processForgotPassword(ForgotPasswordRequest useremail) throws Exception {
 		User user = repository.findByEmail(useremail.getemail());
 		String tokenStr = Jwts.builder()
-				.setAudience(useremail.getemail())
+				/*.setAudience(useremail.getemail())
 				.setSubject(Long.toString(1))
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(new Date().getTime() + 300000))
+				.signWith(SignatureAlgorithm.HS512, "926D96C90030DD58429D2751AC1BDBBC")
+				.compact();*/
+				.setSubject(user.getId().toString())
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(new Date().getTime() + 300000))
 				.signWith(SignatureAlgorithm.HS512, "926D96C90030DD58429D2751AC1BDBBC")
@@ -100,20 +106,21 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	}
 
 	@Override
-	public void resetPassword(String tokenStr, String newPassword) throws Exception {
-		Claims claims = Jwts.parser()
-				.setSigningKey("926D96C90030DD58429D2751AC1BDBBC")
-				.parseClaimsJws(tokenStr)
-				.getBody();
-		String email = claims.getAudience();
-		User user = repository.findByEmail(email);
+	public void resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception {
+		
+		User user = repository.findByResetToken(resetPasswordRequest.getToken());
+		
+		if(null != user) {
+			
+		}
+		
 		if(null!=user)
 		{
-			user.setPassword(passwordEncoder.encode(newPassword));
+			user.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
 			user.setResetToken("");
 			repository.save(user);
 		}
-		emailResetPassword(email);
+		//emailResetPassword(email);
 	}
 
 	@Async
