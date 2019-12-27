@@ -76,7 +76,6 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	}
 
 	@Override
-	@Async
 	public void processForgotPassword(ForgotPasswordRequest useremail) throws Exception {
 		User user = repository.findByEmail(useremail.getemail());
 		String tokenStr = Jwts.builder()
@@ -110,8 +109,9 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		User user = repository.findByEmail(email);
 		if(null!=user)
 		{
-			user.setPassword(null!=user.getPassword()?passwordEncoder.encode(newPassword):user.getPassword());
+			user.setPassword(passwordEncoder.encode(newPassword));
 			user.setResetToken("");
+			repository.save(user);
 		}
 		emailResetPassword(email);
 	}

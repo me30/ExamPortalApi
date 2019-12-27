@@ -10,11 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 @Entity
 @Table(name="user")
@@ -36,10 +34,9 @@ public class User {
 	@JsonIgnore
 	@Column(name="password")
 	private String password;
-
-	@Enumerated(EnumType.STRING)
-	@NaturalId
+	
 	@Column(name="role",length = 60)
+	@Enumerated(EnumType.STRING)
 	private RoleName role;
 
 	@Column(name="gender")
