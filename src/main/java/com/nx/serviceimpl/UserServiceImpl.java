@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.nx.entity.RoleName;
 import com.nx.entity.User;
+import com.nx.exception.AppException;
 import com.nx.payload.ForgotPasswordRequest;
 import com.nx.payload.ResetPasswordRequest;
 import com.nx.payload.SignupRequest;
@@ -23,7 +24,6 @@ import com.nx.service.BasicService;
 import com.nx.service.EmailService;
 import com.nx.service.UserService;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -92,6 +92,7 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 				.signWith(SignatureAlgorithm.HS512, "926D96C90030DD58429D2751AC1BDBBC")
 				.compact();
 		user.setResetToken(tokenStr);
+		repository.save(user);
 		emailForgotPassword(useremail, tokenStr);
 	}
 
@@ -110,17 +111,17 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		
 		User user = repository.findByResetToken(resetPasswordRequest.getToken());
 		
-		if(null != user) {
-			
-		}
-		
 		if(null!=user)
 		{
 			user.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
 			user.setResetToken("");
 			repository.save(user);
+			emailResetPassword(user.getEmail());
 		}
-		//emailResetPassword(email);
+		else
+		{
+			throw new AppException("User with token "+resetPasswordRequest.getToken()+" not found");
+		}
 	}
 
 	@Async
