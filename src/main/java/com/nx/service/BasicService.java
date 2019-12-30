@@ -35,7 +35,7 @@ public abstract class BasicService<T, R extends JpaRepository<T, Long> & JpaSpec
 	public Optional<T> findById(Long id){
 		return repository.findById(id);
 	}
-
+	
 	@Override
 	public Page<T> findAll(Pageable pageable) {
 		//pageable = checkPageable(pageable);

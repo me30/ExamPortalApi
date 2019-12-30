@@ -29,4 +29,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 	Boolean existsByEmail(String email);
 
 	User findByResetToken(String token);
+	
+	@Query("select u From User u where u.id = ?1")
+	User retrieveUserById(Long id);
 }

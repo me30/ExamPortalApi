@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.nx.entity.RoleName;
 import com.nx.entity.User;
+import com.nx.exception.AppException;
+import com.nx.payload.UpdateUserPasswordRequest;
 import com.nx.security.JwtTokenProvider;
 import com.nx.service.UserService;
 
@@ -78,9 +82,29 @@ public class UserController {
 		return userService.save(user);
 	}
 
-	@PutMapping("/{id}")
-	public User update(@PathVariable("id") Long id,	@RequestBody User user) {
-		return userService.save(user);
+	@PutMapping()
+	public ResponseEntity<?> update(@RequestBody User user) throws Exception {
+		try {
+			String token = req.getHeader("Authorization").substring(7, req.getHeader("Authorization").length());
+			userService.updateUser(token,user);
+			//userService.save(user)
+			return new ResponseEntity<String>("User updated successfully",HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/savePassword")
+	public ResponseEntity<?> savePassword(@RequestBody UpdateUserPasswordRequest passwordRequest) throws Exception{
+		try {
+			String token = req.getHeader("Authorization").substring(7, req.getHeader("Authorization").length());
+			userService.updateUserPassword(token,passwordRequest);
+			return new ResponseEntity<String>("User password updated successfully",HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<AppException>(new AppException(e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@DeleteMapping("/{id}")
