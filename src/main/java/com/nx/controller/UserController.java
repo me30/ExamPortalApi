@@ -32,24 +32,24 @@ import com.nx.service.UserService;
 @RequestMapping("/user")
 @CrossOrigin("*")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
-    JwtTokenProvider tokenProvider;
-	
+	JwtTokenProvider tokenProvider;
+
 	@Autowired
 	HttpServletRequest req;
-	
+
 	@GetMapping("/findAll")
 	public List<User> findAll() {
 		return userService.findAll();
 	}
-	
+
 	@GetMapping("/find")
 	public ResponseEntity<User> findByToken() {
 		String token = req.getHeader("Authorization").substring(7, req.getHeader("Authorization").length());
@@ -57,7 +57,7 @@ public class UserController {
 				.map(user -> ResponseEntity.ok().body(user))
 				.orElse(ResponseEntity.notFound().build());
 	}
-	
+
 	@GetMapping("/search/")
 	public Page<User> search(Pageable pageable,@RequestParam("searchText") String searchText) {
 		return  userService.search(pageable,searchText);
@@ -67,7 +67,7 @@ public class UserController {
 	public Page<User> findAll(Pageable pageable) {
 		return userService.findAll(pageable);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<User> findById(@PathVariable("id") Long id) {
 		return userService.findById(id)
@@ -83,23 +83,44 @@ public class UserController {
 	}
 
 	@PutMapping()
-	public ResponseEntity<?> update(@RequestBody User user) throws Exception {
+	public ResponseEntity<?> update(@RequestBody User web) throws Exception {
 		try {
 			String token = req.getHeader("Authorization").substring(7, req.getHeader("Authorization").length());
-			userService.updateUser(token,user);
-			//userService.save(user)
+			Long userId = tokenProvider.getUserIdFromJWT(token);
+
+			User entity = userService.findById(userId).orElse(null);
+			if (entity == null) {
+				return new ResponseEntity<AppException>(new AppException("User not found"), HttpStatus.BAD_REQUEST);
+			}
+			
+			entity.setUserName(null!=web.getUserName()?web.getUserName():entity.getUserName());
+			entity.setFirstName(null!=web.getFirstName()?web.getFirstName():entity.getFirstName());
+			entity.setLastName(null!=web.getLastName()?web.getLastName():entity.getLastName());
+			entity.setGender(null!=web.getGender()?web.getGender():entity.getGender());
+			entity.setPassword(null!=web.getPassword()? passwordEncoder.encode(web.getPassword()):entity.getPassword());
+			entity.setEmail(null!=web.getEmail()?web.getEmail():entity.getEmail());
+			entity.setDob(null!=web.getDob()?web.getDob():entity.getDob());
+
+			userService.save(entity);
 			return new ResponseEntity<String>("User updated successfully",HttpStatus.OK);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	@PostMapping("/savePassword")
-	public ResponseEntity<?> savePassword(@RequestBody UpdateUserPasswordRequest passwordRequest) throws Exception{
+
+	@PostMapping("/changepassword")
+	public ResponseEntity<?> changepassword(@RequestBody UpdateUserPasswordRequest passwordRequest) throws Exception{
 		try {
 			String token = req.getHeader("Authorization").substring(7, req.getHeader("Authorization").length());
-			userService.updateUserPassword(token,passwordRequest);
+			Long userId = tokenProvider.getUserIdFromJWT(token);
+
+			User entity = userService.findById(userId).orElse(null);
+			if (entity == null) {
+				return new ResponseEntity<AppException>(new AppException("User not found"), HttpStatus.BAD_REQUEST);
+			}
+			entity.setPassword(null!=passwordRequest.getNewpassword()? passwordEncoder.encode(passwordRequest.getNewpassword()):"");
+			userService.save(entity);
 			return new ResponseEntity<String>("User password updated successfully",HttpStatus.OK);
 		}
 		catch (Exception e) {

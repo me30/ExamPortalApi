@@ -138,47 +138,4 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		emailService.sendEmail(passwordResetEmail);
 	}
 
-	@Override
-	public void updateUser(String token,User entity) throws Exception {
-		Long userId = tokenProvider.getUserIdFromJWT(token);
-		User db = repository.retrieveUserById(userId);
-		
-		if(null!=db){
-			db.setUserName(null!=entity.getUserName()?entity.getUserName():db.getUserName());
-			db.setFirstName(null!=entity.getFirstName()?entity.getFirstName():db.getFirstName());
-			db.setLastName(null!=entity.getLastName()?entity.getLastName():db.getLastName());
-			db.setGender(null!=entity.getGender()?entity.getGender():db.getGender());
-			//What if user provide new password
-			//user.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
-			db.setEmail(null!=entity.getEmail()?entity.getEmail():db.getEmail());
-			db.setDob(null!=entity.getDob()?entity.getDob():db.getDob());
-			entity = repository.save(db);
-		}
-		else{
-			throw new AppException("User with Id "+userId+" not found");
-		}
-	}
-
-	/**
-	 * to update user password after providing password in JSON and token in header
-	 * Return null
-	 */
-	
-	@Override
-	public void updateUserPassword(String token,UpdateUserPasswordRequest userPassword) throws Exception {
-		// TODO Auto-generated method stub
-		Long userId = tokenProvider.getUserIdFromJWT(token);
-		User user = repository.retrieveUserById(userId);
-		
-		if(null!=user)
-		{
-			user.setPassword(null!=userPassword.getNewpassword()?passwordEncoder.encode(userPassword.getNewpassword()):user.getPassword());
-			repository.save(user);
-		}
-		else
-		{
-			throw new AppException("User with Id "+userId+" not found");
-		}
-	}
-
 }

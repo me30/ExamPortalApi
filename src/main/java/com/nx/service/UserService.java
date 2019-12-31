@@ -7,7 +7,6 @@ import com.nx.entity.User;
 import com.nx.payload.ForgotPasswordRequest;
 import com.nx.payload.ResetPasswordRequest;
 import com.nx.payload.SignupRequest;
-import com.nx.payload.UpdateUserPasswordRequest;
 
 public interface UserService extends IFinder<User> , IService<User>{
 
@@ -23,7 +22,4 @@ public interface UserService extends IFinder<User> , IService<User>{
 
 	void resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception;
 
-	void updateUser(String token, User user) throws Exception;
-
-	void updateUserPassword(String token,UpdateUserPasswordRequest userPassword) throws Exception;
 }
