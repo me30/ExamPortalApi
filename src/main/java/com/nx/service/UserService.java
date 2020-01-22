@@ -1,5 +1,7 @@
 package com.nx.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,5 +23,7 @@ public interface UserService extends IFinder<User> , IService<User>{
 	void processForgotPassword(ForgotPasswordRequest useremail) throws Exception;
 
 	void resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception;
+	
+	List<User> getOnlyUsers();
 
 }

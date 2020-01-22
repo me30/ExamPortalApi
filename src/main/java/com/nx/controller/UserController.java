@@ -45,6 +45,11 @@ public class UserController {
 	@Autowired
 	HttpServletRequest req;
 
+	@GetMapping("/getOnlyUsres")
+	public List<User> getOnlyUsers(){
+		return userService.getOnlyUsers();
+	}
+	
 	@GetMapping("/findAll")
 	public List<User> findAll() {
 		return userService.findAll();

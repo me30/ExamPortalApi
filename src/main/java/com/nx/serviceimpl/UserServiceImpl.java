@@ -1,6 +1,8 @@
 package com.nx.serviceimpl;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +138,11 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		passwordResetEmail.setSubject("Password reset successfully");
 		passwordResetEmail.setText("Your password reset successfully..");
 		emailService.sendEmail(passwordResetEmail);
+	}
+	
+	@Override
+	public List<User> getOnlyUsers() {
+		return repository.getOnlyUsers();
 	}
 
 }

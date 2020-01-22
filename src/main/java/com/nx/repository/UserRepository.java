@@ -1,5 +1,6 @@
 package com.nx.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -32,4 +33,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 	
 	@Query("select u From User u where u.id = ?1")
 	User retrieveUserById(Long id);
+	
+	@Query("Select u From User u where u.role = 'User'")
+	List<User> getOnlyUsers();
 }
