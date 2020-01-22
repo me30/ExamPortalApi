@@ -48,7 +48,8 @@ public class UserController {
 	@GetMapping("/getOnlyUsres")
 	public List<User> getOnlyUsers(){
 		return userService.getOnlyUsers();
-	}
+	} 
+	
 	
 	@GetMapping("/findAll")
 	public List<User> findAll() {
