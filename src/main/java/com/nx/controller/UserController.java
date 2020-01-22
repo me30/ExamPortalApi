@@ -50,7 +50,6 @@ public class UserController {
 		return userService.getOnlyUsers();
 	} 
 	
-	
 	@GetMapping("/findAll")
 	public List<User> findAll() {
 		return userService.findAll();
