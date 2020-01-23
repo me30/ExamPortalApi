@@ -28,8 +28,8 @@ public class Question implements Serializable{
 	@JoinColumn(name="exam_id")
 	private Exam exam;
 	
-	@Column(name="ans_in_text")
-	private String ansInText;
+	@Column(name="ans_category")
+	private String ansCategory;
 	
 	@Column(name="correct_ans")
 	private String correct_ans;
@@ -58,11 +58,6 @@ public class Question implements Serializable{
 	@Column(name="option4_is_ans")
 	private Boolean option4IsAns;
 	
-	@Column(name="is_multi_select")
-	private Boolean isMultiSelect;
-	
-	@Column(name="is_text")
-	private Boolean isText;
 
 	public Long getId() {
 		return id;
@@ -88,12 +83,12 @@ public class Question implements Serializable{
 		this.exam = exam;
 	}
 
-	public String getAnsInText() {
-		return ansInText;
+	public String getAnsCategory() {
+		return ansCategory;
 	}
 
-	public void setAnsInText(String ansInText) {
-		this.ansInText = ansInText;
+	public void setAnsCategory(String ansCategory) {
+		this.ansCategory = ansCategory;
 	}
 
 	public String getCorrect_ans() {
@@ -168,19 +163,4 @@ public class Question implements Serializable{
 		this.option4IsAns = option4IsAns;
 	}
 
-	public Boolean getIsMultiSelect() {
-		return isMultiSelect;
-	}
-
-	public void setIsMultiSelect(Boolean isMultiSelect) {
-		this.isMultiSelect = isMultiSelect;
-	}
-
-	public Boolean getIsText() {
-		return isText;
-	}
-
-	public void setIsText(Boolean isText) {
-		this.isText = isText;
-	}
 }
