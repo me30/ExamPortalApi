@@ -113,6 +113,31 @@ public class UserController {
 			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PutMapping("/editProfile")
+	public ResponseEntity<?> editProfile(@RequestBody User web) throws Exception {
+		try {
+				
+			User entity = userService.findById(web.getId()).orElse(null);
+			if (entity == null) {
+				return new ResponseEntity<AppException>(new AppException("User not found"), HttpStatus.BAD_REQUEST);
+			}
+			
+			entity.setUserName(null!=web.getUserName()?web.getUserName():entity.getUserName());
+			entity.setFirstName(null!=web.getFirstName()?web.getFirstName():entity.getFirstName());
+			entity.setLastName(null!=web.getLastName()?web.getLastName():entity.getLastName());
+			entity.setGender(null!=web.getGender()?web.getGender():entity.getGender());
+			entity.setPassword(null!=web.getPassword()? passwordEncoder.encode(web.getPassword()):entity.getPassword());
+			entity.setEmail(null!=web.getEmail()?web.getEmail():entity.getEmail());
+			entity.setDob(null!=web.getDob()?web.getDob():entity.getDob());
+
+			userService.save(entity);
+			return new ResponseEntity<User>(entity,HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 	@PostMapping("/changepassword")
 	public ResponseEntity<?> changepassword(@RequestBody UpdateUserPasswordRequest passwordRequest) throws Exception{

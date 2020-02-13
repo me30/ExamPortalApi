@@ -18,58 +18,59 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nx.entity.Question;
-import com.nx.entity.User;
-import com.nx.service.QuestionService;
+import com.nx.entity.ExamsAssign;
+import com.nx.service.ExamAssignService;
+
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/examAssign")
 @CrossOrigin("*")
-public class QuestionController {
+public class ExamAssignController {
 	
 	@Autowired
-	QuestionService questionService;
+	ExamAssignService examAssignService;
 	
-	@GetMapping("/findAll")
-	public List<Question> findAll() {
-		return questionService.findAll();
+	@GetMapping("/getUsers/{id}")
+	public List<ExamsAssign> loadExamAssignByExamId(@PathVariable("id") Long user_id) {
+		return examAssignService.loadExamAssignByExamId(user_id);
 	}
 	
-	@GetMapping("/loadByExamId/{id}")
-	public List<Question> loadQuestionsByExamId(@PathVariable("id") Long exam_id){
-		return questionService.loadQuestionsByExamId(exam_id);		
+	@GetMapping("/findAll")
+	public List<ExamsAssign> findAll() {
+		return examAssignService.findAll();
 	}
 	
 	@GetMapping()
-	public Page<Question> findAll(Pageable pageable) {
-		return questionService.findAll(pageable);
+	public Page<ExamsAssign> findAll(Pageable pageable) {
+		return examAssignService.findAll(pageable);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Question> findById(@PathVariable("id") Long id) {
-		return questionService.findById(id)
-				.map(question -> ResponseEntity.ok().body(question))
+	public ResponseEntity<ExamsAssign> findById(@PathVariable("id") Long id) {
+		return examAssignService.findById(id)
+				.map(examAssign -> ResponseEntity.ok().body(examAssign))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@PostMapping()
-	public Question save(@RequestBody Question question) {
-		return questionService.save(question);
+	public ExamsAssign save(@RequestBody ExamsAssign examAssign) {
+		return examAssignService.save(examAssign);
 	}
 	
 	@PutMapping()
-	public Question update(@RequestBody Question question) {
-		return questionService.save(question);
+	public ExamsAssign update(@RequestBody ExamsAssign examAssign) {
+		return examAssignService.save(examAssign);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-		Optional<Question> db = questionService.findById(id);
+		Optional<ExamsAssign> db = examAssignService.findById(id);
 		if(null == db){
-			return new ResponseEntity<String>("Question not found", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Id not found", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		questionService.deleteById(id);
+		examAssignService.deleteById(id);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
+
 }
