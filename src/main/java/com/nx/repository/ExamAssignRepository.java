@@ -11,8 +11,10 @@ import com.nx.entity.ExamsAssign;
 import com.nx.entity.Question;
 
 @Repository
-public interface ExamAssignRepository extends JpaRepository<ExamsAssign, Long>, JpaSpecificationExecutor<ExamsAssign	>{
+public interface ExamAssignRepository extends JpaRepository<ExamsAssign, Long>, JpaSpecificationExecutor<ExamsAssign>{
 
 	@Query("select e From ExamsAssign e where e.assignTo.id = ?1")
-	List<ExamsAssign> loadExamAssignByExamId(Long user_id);
+	List<ExamsAssign> loadExamAssignByUserId(Long user_id);
+	
+	
 }

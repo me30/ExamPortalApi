@@ -145,4 +145,8 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 		return repository.getOnlyUsers();
 	}
 
+	@Override
+	public List<User> getOnlyUserforExamAssigned(Long exam_id) {
+		return repository.getOnlyUserforExamAssigned(exam_id);
+	}
 }

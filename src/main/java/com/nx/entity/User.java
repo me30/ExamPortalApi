@@ -49,7 +49,7 @@ public class User {
 	@JsonIgnore
 	@Column(name = "resetToken",length = 255)
 	private String resetToken;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -129,5 +129,5 @@ public class User {
 	public void setResetToken(String resetToken) {
 		this.resetToken = resetToken;
 	}
-
+	
 }

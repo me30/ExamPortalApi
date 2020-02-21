@@ -13,8 +13,8 @@ import com.nx.service.ExamAssignService;
 public class ExamsAssignServiceImpl extends BasicService<ExamsAssign, ExamAssignRepository> implements ExamAssignService{
 
 	@Override
-	public List<ExamsAssign> loadExamAssignByExamId(Long user_id) {
-		return repository.loadExamAssignByExamId(user_id);
+	public List<ExamsAssign> loadExamAssignByUserId(Long user_id) {
+		return repository.loadExamAssignByUserId(user_id);
 	}
 
 }

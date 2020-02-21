@@ -25,5 +25,7 @@ public interface UserService extends IFinder<User> , IService<User>{
 	void resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception;
 	
 	List<User> getOnlyUsers();
+	
+	List<User> getOnlyUserforExamAssigned(Long exam_id);
 
 }

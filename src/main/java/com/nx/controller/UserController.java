@@ -45,6 +45,11 @@ public class UserController {
 	@Autowired
 	HttpServletRequest req;
 
+	@GetMapping("/getUserForExamAssign/{id}")
+	public List<User> getOnlyUserforExamAssigned(@PathVariable("id") Long exam_id){
+		return userService.getOnlyUserforExamAssigned(exam_id);
+	}
+	
 	@GetMapping("/getOnlyUsres")
 	public List<User> getOnlyUsers(){
 		return userService.getOnlyUsers();
@@ -86,14 +91,12 @@ public class UserController {
 		user.setRole(RoleName.User);
 		return userService.save(user);
 	}
-
+	
 	@PutMapping()
 	public ResponseEntity<?> update(@RequestBody User web) throws Exception {
 		try {
-			String token = req.getHeader("Authorization").substring(7, req.getHeader("Authorization").length());
-			Long userId = tokenProvider.getUserIdFromJWT(token);
-
-			User entity = userService.findById(userId).orElse(null);
+			
+			User entity = userService.findById(web.getId()).orElse(null);
 			if (entity == null) {
 				return new ResponseEntity<AppException>(new AppException("User not found"), HttpStatus.BAD_REQUEST);
 			}

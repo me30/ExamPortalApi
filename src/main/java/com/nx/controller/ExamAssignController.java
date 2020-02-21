@@ -3,6 +3,8 @@ package com.nx.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,8 +33,8 @@ public class ExamAssignController {
 	ExamAssignService examAssignService;
 	
 	@GetMapping("/getUsers/{id}")
-	public List<ExamsAssign> loadExamAssignByExamId(@PathVariable("id") Long user_id) {
-		return examAssignService.loadExamAssignByExamId(user_id);
+	public List<ExamsAssign> loadExamAssignByUserId(@PathVariable("id") Long user_id) {
+		return examAssignService.loadExamAssignByUserId(user_id);
 	}
 	
 	@GetMapping("/findAll")

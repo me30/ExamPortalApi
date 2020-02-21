@@ -36,4 +36,10 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 	
 	@Query("Select u From User u where u.role = 'User'")
 	List<User> getOnlyUsers();
+	
+	@Query("SELECT u FROM User u LEFT JOIN ExamsAssign e "
+			+ "ON e.assignTo = u.id and e.exam.id = ?1 " + 
+			"WHERE e.assignTo IS NULL and u.role = 'User' ")
+	List<User> getOnlyUserforExamAssigned(Long exam_id);
+	
 }

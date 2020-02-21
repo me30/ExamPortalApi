@@ -6,5 +6,5 @@ import com.nx.entity.ExamsAssign;
 
 public interface ExamAssignService extends IFinder<ExamsAssign>,IService<ExamsAssign>{
 	
-	List<ExamsAssign> loadExamAssignByExamId(Long user_id);
+	List<ExamsAssign> loadExamAssignByUserId(Long user_id);
 }
