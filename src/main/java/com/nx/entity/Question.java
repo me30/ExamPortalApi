@@ -58,7 +58,9 @@ public class Question implements Serializable{
 	@Column(name="option4_is_ans")
 	private Boolean option4IsAns;
 	
-
+	@Column(name="time_per_Question")
+	private Long timePerQuestion;
+	
 	public Long getId() {
 		return id;
 	}
@@ -163,4 +165,12 @@ public class Question implements Serializable{
 		this.option4IsAns = option4IsAns;
 	}
 
+	public Long getTimePerQuestion() {
+		return timePerQuestion;
+	}
+
+	public void setTimePerQuestion(Long timePerQuestion) {
+		this.timePerQuestion = timePerQuestion;
+	}
+	
 }

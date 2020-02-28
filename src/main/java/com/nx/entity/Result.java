@@ -26,7 +26,7 @@ public class Result implements Serializable{
 	private User user;
 	
 	@Column(name="total_correct_answer")
-	private Long totalCorrectAnswer;
+	private Double totalCorrectAnswer;
 	
 	@Column(name="out_off")
 	private Long outOff;
@@ -57,11 +57,11 @@ public class Result implements Serializable{
 		this.user = user;
 	}
 
-	public Long getTotalCorrectAnswer() {
+	public Double getTotalCorrectAnswer() {
 		return totalCorrectAnswer;
 	}
 
-	public void setTotalCorrectAnswer(Long totalCorrectAnswer) {
+	public void setTotalCorrectAnswer(Double totalCorrectAnswer) {
 		this.totalCorrectAnswer = totalCorrectAnswer;
 	}
 

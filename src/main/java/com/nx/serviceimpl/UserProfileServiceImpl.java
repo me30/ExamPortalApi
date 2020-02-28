@@ -28,6 +28,14 @@ public class UserProfileServiceImpl extends BasicService<UserProfile, UserProfil
 
 	@Override
 	public UserProfile save(MultipartFile multipartFile,Long user_id) throws IOException {
+		
+		User u = userRepository.findById(user_id).orElse(null);
+		
+		if(u != null) {
+			UserProfile userProfile = repository.loadUserProfileByUserId(user_id).orElse(null);
+			repository.delete(userProfile);
+		}
+		
 		UserProfile doc = new UserProfile();
 		doc.setFileName(multipartFile.getOriginalFilename());
 		String extention = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
