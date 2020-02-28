@@ -30,9 +30,9 @@ public class UserProfileServiceImpl extends BasicService<UserProfile, UserProfil
 	public UserProfile save(MultipartFile multipartFile,Long user_id) throws IOException {
 		
 		User u = userRepository.findById(user_id).orElse(null);
-		
-		if(u != null) {
-			UserProfile userProfile = repository.loadUserProfileByUserId(user_id).orElse(null);
+		UserProfile userProfile = repository.loadUserProfileByUserId(user_id).orElse(null);
+		if(u != null && userProfile != null) {
+
 			repository.delete(userProfile);
 		}
 		
