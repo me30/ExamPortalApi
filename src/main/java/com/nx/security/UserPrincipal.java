@@ -18,7 +18,6 @@ public class UserPrincipal implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String username;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -28,11 +27,10 @@ public class UserPrincipal implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserPrincipal(Long id, String username, String firstName, String lastName, String email, String password,
+	public UserPrincipal(Long id, String firstName, String lastName, String email, String password,
 			String gender, Date dob, Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.id = id;
-		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -49,7 +47,6 @@ public class UserPrincipal implements UserDetails {
 				
 		return new UserPrincipal(
 				user.getId(),
-				user.getUserName(),
 				user.getFirstName(),
 				user.getLastName(),
 				user.getEmail(),
@@ -75,7 +72,7 @@ public class UserPrincipal implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return username;
+		return email;
 	}
 
 	@Override
@@ -112,10 +109,6 @@ public class UserPrincipal implements UserDetails {
 
 	public String getLastName() {
 		return lastName;
-	}
-
-	public String getEmail() {
-		return email;
 	}
 
 	public String getGender() {

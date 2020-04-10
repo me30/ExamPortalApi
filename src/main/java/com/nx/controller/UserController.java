@@ -101,7 +101,6 @@ public class UserController {
 				return new ResponseEntity<AppException>(new AppException("User not found"), HttpStatus.BAD_REQUEST);
 			}
 			
-			entity.setUserName(null!=web.getUserName()?web.getUserName():entity.getUserName());
 			entity.setFirstName(null!=web.getFirstName()?web.getFirstName():entity.getFirstName());
 			entity.setLastName(null!=web.getLastName()?web.getLastName():entity.getLastName());
 			entity.setGender(null!=web.getGender()?web.getGender():entity.getGender());
@@ -126,7 +125,6 @@ public class UserController {
 				return new ResponseEntity<AppException>(new AppException("User not found"), HttpStatus.BAD_REQUEST);
 			}
 			
-			entity.setUserName(null!=web.getUserName()?web.getUserName():entity.getUserName());
 			entity.setFirstName(null!=web.getFirstName()?web.getFirstName():entity.getFirstName());
 			entity.setLastName(null!=web.getLastName()?web.getLastName():entity.getLastName());
 			entity.setGender(null!=web.getGender()?web.getGender():entity.getGender());

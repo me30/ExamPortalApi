@@ -14,8 +14,6 @@ public interface UserService extends IFinder<User> , IService<User>{
 
 	Page<User> search(Pageable pageable, String searchText);
 
-	boolean existsByUsername(String username) throws Exception;
-
 	boolean existsByEmail(String email) throws Exception;
 
 	void registerUser(SignupRequest signUpRequest) throws Exception;

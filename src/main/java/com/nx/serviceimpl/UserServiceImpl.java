@@ -20,7 +20,6 @@ import com.nx.exception.AppException;
 import com.nx.payload.ForgotPasswordRequest;
 import com.nx.payload.ResetPasswordRequest;
 import com.nx.payload.SignupRequest;
-import com.nx.payload.UpdateUserPasswordRequest;
 import com.nx.repository.UserRepository;
 import com.nx.security.JwtTokenProvider;
 import com.nx.service.BasicService;
@@ -58,11 +57,6 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	}
 	
 	@Override
-	public boolean existsByUsername(String username) throws Exception {
-		return repository.existsByUserName(username);
-	}
-
-	@Override
 	public boolean existsByEmail(String email) throws Exception {
 		return repository.existsByEmail(email);
 	}
@@ -71,7 +65,6 @@ public class UserServiceImpl extends BasicService<User, UserRepository> implemen
 	public void registerUser(@Valid SignupRequest signUpRequest) throws Exception {
 		// Creating user's account
 		User user = new User();
-		user.setUserName(signUpRequest.getUserName());
 		user.setFirstName(signUpRequest.getFirstName());
 		user.setLastName(signUpRequest.getLastName());
 		user.setGender(signUpRequest.getGender());
