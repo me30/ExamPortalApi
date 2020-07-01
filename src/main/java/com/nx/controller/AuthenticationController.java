@@ -58,7 +58,8 @@ public class AuthenticationController {
 	        userService.registerUser(signUpRequest);
 		}catch (Exception e) {
 			// TODO: handle exception
-			//1.. write in log file			
+			//1.. write in log file	
+			
 			//2.. response
 			return new ResponseEntity<AppException>(new AppException(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
