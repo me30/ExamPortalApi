@@ -68,16 +68,19 @@ public class UserProfileController {
 		String images;
 		String encodeBase64 = null;
 		UserProfile userProfile = userProfileService.loadUserProfileByUserId(id).orElse(null);
-		
+		if(null != userProfile) {
 		String extention = FilenameUtils.getExtension(userProfile.getFileName());
-		File file = new File(userProfile.getFilePath());
-		FileInputStream inputStream = new FileInputStream(file);
-		byte[] bytes= new byte[(int)file.length()];
-		inputStream.read(bytes);
-		encodeBase64 = Base64.getEncoder().encodeToString(bytes);
-		images = "data:image/"+extention+";base64,"+encodeBase64;
-		inputStream.close();
-		return new ResponseEntity<String>(images,HttpStatus.OK);	
+			File file = new File(userProfile.getFilePath());
+			FileInputStream inputStream = new FileInputStream(file);
+			byte[] bytes= new byte[(int)file.length()];
+			inputStream.read(bytes);
+			encodeBase64 = Base64.getEncoder().encodeToString(bytes);
+			images = "data:image/"+extention+";base64,"+encodeBase64;
+			inputStream.close();
+			return new ResponseEntity<String>(images,HttpStatus.OK);	
+		}else {
+			return new ResponseEntity<String>("Image is not Selected",HttpStatus.OK);
+		}
 	}
 	
 	@PutMapping()
